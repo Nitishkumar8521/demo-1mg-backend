@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 });
 
 // Connect to MongoDB and Start the Server
-mongoose.connect(process.env.url, {
+mongoose.connect('mongodb+srv://nkk7367095:1mgbackend@cluster0.wwsgl.mongodb.net/1MG?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
