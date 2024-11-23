@@ -44,6 +44,26 @@ productRoute.get('/get-product',async(req, res)=>{
     }
 })
 
+productRoute.get('/get-product/:category',async(req, res)=>{
+    try {
+        const { category } = req.params;
+        const pipeline = [];
+        if(req.loggedUser.role==='seller'){
+            const userId =new mongoose.Types.ObjectId(req.loggedUser.userId);
+            pipeline.push({ $match: { sellerId: userId } });
+        }
+
+        pipeline.push({$match:{category:category}})
+
+        const product = await productModel.aggregate(pipeline);
+        res.json({product})
+
+    } catch (error) {
+        res.json({"Error in product":error.message})
+    }
+})
+
+
 productRoute.get('/get-product/:id',auth, checkAuthorization(["seller"]),async(req, res)=>{
     try {
        const { id } = req.params;
